@@ -1,0 +1,155 @@
+D2L.IM = D2L.IM || {};
+D2L.IM.GoogleApps = D2L.IM.GoogleApps || {};
+D2L.IM.GoogleApps.WidgetPages = D2L.IM.GoogleApps.WidgetPages || {};
+
+D2L.IM.GoogleApps.WidgetPages.CalenderItemRenderer = D2L.Control.DataList.ItemRenderer.extend({
+
+    Construct: function () {
+
+        arguments.callee.$.Construct.call(this);
+
+        // default style of an item					
+        this.itemStyle = new D2L.Control.DataList.ItemStyle();
+        this.itemStyle.SetBackgroundColor('transparent');
+        this.itemStyle.SetBorder(new D2L.Style.BorderInfo(D2L.Style.BorderStyle.Solid, 'transparent', 1));
+        this.itemStyle.SetBorderRadius(0);
+        this.itemStyle.SetPadding(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Padding, D2L.Style.Spacing.UnitType.Em, 0.3));
+        this.itemStyle.SetSpacing(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Spacing, D2L.Style.Spacing.UnitType.Em, 0.3));
+
+        // default style of a selected item
+        this.selectedItemStyle = new D2L.Control.DataList.ItemStyle();
+        this.selectedItemStyle.SetBackgroundColor('#E8F2FC');
+        this.selectedItemStyle.SetBorder(new D2L.Style.BorderInfo(D2L.Style.BorderStyle.Solid, 'transparent', 1));
+        this.selectedItemStyle.SetBorderRadius(3);
+        this.selectedItemStyle.SetPadding(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Padding, D2L.Style.Spacing.UnitType.Em, 0.3));
+        this.selectedItemStyle.SetSpacing(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Spacing, D2L.Style.Spacing.UnitType.Em, 0.3));
+
+        // default style when mouse over or focus
+        this.mouseOverItemStyle = new D2L.Control.DataList.ItemStyle();
+        this.mouseOverItemStyle.SetBackgroundColor('#E7E7E7');
+        this.mouseOverItemStyle.SetBorder(new D2L.Style.BorderInfo(D2L.Style.BorderStyle.Solid, 'transparent', 1));
+        this.mouseOverItemStyle.SetBorderRadius(3);
+        this.mouseOverItemStyle.SetPadding(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Padding, D2L.Style.Spacing.UnitType.Em, 0.3));
+        this.mouseOverItemStyle.SetSpacing(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Spacing, D2L.Style.Spacing.UnitType.Em, 0.3));
+
+        // default style of a disabled item
+        this.disabledItemStyle = new D2L.Control.DataList.ItemStyle();
+        this.disabledItemStyle.SetBackgroundColor('transparent');
+        this.disabledItemStyle.SetBorder(new D2L.Style.BorderInfo(D2L.Style.BorderStyle.Solid, 'transparent', 1));
+        this.disabledItemStyle.SetBorderRadius(3);
+        this.disabledItemStyle.SetPadding(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Padding, D2L.Style.Spacing.UnitType.Em, 0.3));
+        this.disabledItemStyle.SetSpacing(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Spacing, D2L.Style.Spacing.UnitType.Em, 0.3));
+
+    },
+
+    GetItemStyle: function (layoutType) {
+        return this.itemStyle;
+    },
+
+    GetMouseOverItemStyle: function (layoutType) {
+        return this.mouseOverItemStyle;
+    },
+
+    GetDisabledItemStyle: function (layoutType) {
+        return this.disabledItemStyle;
+    },
+
+    GetSelectedItemStyle: function (layoutType) {
+        return this.selectedItemStyle;
+    },
+
+
+    Deserialize: function (deserializer) {
+        arguments.callee.$.Deserialize.call(this, deserializer);
+    },
+
+    GetDataClass: function () {
+        return D2L.IM.GoogleApps.WidgetPages.CalenderItemRendererData;
+    },
+
+    Render: function (dataItem) {
+
+        var dataList = dataItem.GetDataList();
+        var data = dataItem.GetData();
+        var navigation = dataItem.GetParameter('Navigation');
+
+        var container = null;
+        if (navigation != null) {
+            container = dataList.CreateElement('a');
+            container.setAttribute('href', navigation);
+            container.setAttribute('target', '_blank');
+        } else {
+            container = dataList.CreateElement('div');
+        }
+        container.className = "ddl_calendar_item";
+
+        var leftContainer = dataList.CreateElement('div');
+        leftContainer.className = "ddl_calendar_date";
+
+        var month = dataList.CreateElement('div');
+        month.className = "ddl_calendar_month"
+        data.GetMonth().AssignText(month, 'innerHTML');
+        leftContainer.appendChild(month);
+
+        var day = dataList.CreateElement('div');
+        day.className = "ddl_calendar_day"
+        data.GetDay().AssignText(day, 'innerHTML');
+        leftContainer.appendChild(day);
+
+        var rightContainer = dataList.CreateElement('div');
+        rightContainer.className = 'ddl_calendar_info';
+
+        var time = dataList.CreateElement('div');
+        time.className = "ddl_calendar_time"
+        data.GetTime().AssignText(time, 'innerHTML');
+        rightContainer.appendChild(time);
+
+        var description = dataList.CreateElement('div');
+        description.className = "ddl_calendar_description"
+        data.GetDescription().AssignText(description, 'innerHTML');
+        rightContainer.appendChild(description);
+
+        container.appendChild(leftContainer)
+        container.appendChild(rightContainer);
+
+        return container;
+
+    }
+});
+
+
+
+D2L.IM.GoogleApps.WidgetPages.CalenderItemRendererData = D2L.Control.DataList.ItemRendererData.extend({
+
+    Construct: function () {
+        arguments.callee.$.Construct.call(this);
+        this.m_day = null;
+        this.m_month = null;
+        this.m_time = null;
+        this.m_description = null;
+    },
+
+    Deserialize: function (deserializer) {
+        arguments.callee.$.Deserialize.call(this, deserializer);
+        this.m_day = deserializer.GetObject('Day', D2L.LP.Text.IText);
+        this.m_month = deserializer.GetObject('Month');
+        this.m_time = deserializer.GetObject('Time', D2L.LP.Text.IText);
+        this.m_description = deserializer.GetObject('Description', D2L.LP.Text.IText);
+    },
+
+    GetDay: function () {
+        return this.m_day;
+    },
+
+    GetMonth: function () {
+        return this.m_month;
+    },
+
+    GetTime: function () {
+        return this.m_time;
+    },
+
+    GetDescription: function () {
+        return this.m_description;
+    }
+});

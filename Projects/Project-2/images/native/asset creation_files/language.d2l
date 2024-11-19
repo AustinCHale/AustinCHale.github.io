@@ -1,0 +1,2 @@
+D2L.Language.Collections['framework.paging']={
+'altnext':'Next Page','altpagenumber':'Page Number','altpagesize':'Page Size','altprevious':'Previous Page','altresultsperpage':'Results Per Page','lblpagesize':'Page Size:','lblperpage':'[0] per page'};UI.GetLanguageManager().OnCollectionLoad.Trigger('framework.paging');

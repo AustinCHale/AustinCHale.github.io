@@ -1,0 +1,144 @@
+D2L.IM = D2L.IM || {};
+D2L.IM.GoogleApps = D2L.IM.GoogleApps || {};
+D2L.IM.GoogleApps.WidgetPages = D2L.IM.GoogleApps.WidgetPages || {};
+
+D2L.IM.GoogleApps.WidgetPages.MailItemRenderer = D2L.Control.DataList.ItemRenderer.extend({
+
+    Construct: function () {
+
+        arguments.callee.$.Construct.call(this);
+
+        // default style of an item					
+        this.itemStyle = new D2L.Control.DataList.ItemStyle();
+        this.itemStyle.SetBackgroundColor('transparent');
+        this.itemStyle.SetBorder(new D2L.Style.BorderInfo(D2L.Style.BorderStyle.Solid, 'transparent', 1));
+        this.itemStyle.SetBorderRadius(0);
+        this.itemStyle.SetPadding(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Padding, D2L.Style.Spacing.UnitType.Em, 0.3));
+        this.itemStyle.SetSpacing(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Spacing, D2L.Style.Spacing.UnitType.Em, 0.3));
+
+        // default style of a selected item
+        this.selectedItemStyle = new D2L.Control.DataList.ItemStyle();
+        this.selectedItemStyle.SetBackgroundColor('#E8F2FC');
+        this.selectedItemStyle.SetBorder(new D2L.Style.BorderInfo(D2L.Style.BorderStyle.Solid, 'transparent', 1));
+        this.selectedItemStyle.SetBorderRadius(3);
+        this.selectedItemStyle.SetPadding(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Padding, D2L.Style.Spacing.UnitType.Em, 0.3));
+        this.selectedItemStyle.SetSpacing(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Spacing, D2L.Style.Spacing.UnitType.Em, 0.3));
+
+        // default style when mouse over or focus
+        this.mouseOverItemStyle = new D2L.Control.DataList.ItemStyle();
+        this.mouseOverItemStyle.SetBackgroundColor('#E7E7E7');
+        this.mouseOverItemStyle.SetBorder(new D2L.Style.BorderInfo(D2L.Style.BorderStyle.Solid, 'transparent', 1));
+        this.mouseOverItemStyle.SetBorderRadius(3);
+        this.mouseOverItemStyle.SetPadding(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Padding, D2L.Style.Spacing.UnitType.Em, 0.3));
+        this.mouseOverItemStyle.SetSpacing(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Spacing, D2L.Style.Spacing.UnitType.Em, 0.3));
+
+        // default style of a disabled item
+        this.disabledItemStyle = new D2L.Control.DataList.ItemStyle();
+        this.disabledItemStyle.SetBackgroundColor('transparent');
+        this.disabledItemStyle.SetBorder(new D2L.Style.BorderInfo(D2L.Style.BorderStyle.Solid, 'transparent', 1));
+        this.disabledItemStyle.SetBorderRadius(3);
+        this.disabledItemStyle.SetPadding(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Padding, D2L.Style.Spacing.UnitType.Em, 0.3));
+        this.disabledItemStyle.SetSpacing(new D2L.Style.Spacing(D2L.Style.Spacing.Type.Spacing, D2L.Style.Spacing.UnitType.Em, 0.3));
+
+    },
+
+    GetItemStyle: function (layoutType) {
+        return this.itemStyle;
+    },
+
+    GetMouseOverItemStyle: function (layoutType) {
+        return this.mouseOverItemStyle;
+    },
+
+    GetDisabledItemStyle: function (layoutType) {
+        return this.disabledItemStyle;
+    },
+
+    GetSelectedItemStyle: function (layoutType) {
+        return this.selectedItemStyle;
+    },
+
+
+    Deserialize: function (deserializer) {
+        arguments.callee.$.Deserialize.call(this, deserializer);
+    },
+
+    GetDataClass: function () {
+        return D2L.IM.GoogleApps.WidgetPages.MailItemRendererData;
+    },
+
+    Render: function (dataItem) {
+
+        var dataList = dataItem.GetDataList();
+        var data = dataItem.GetData();
+        var navigation = dataItem.GetParameter('Navigation');
+
+        var container = null;
+        if (navigation != null) {
+            container = dataList.CreateElement('a');
+            container.setAttribute('href', navigation);
+            container.setAttribute('target', '_blank');
+        } else {
+            container = dataList.CreateElement('div');
+        }
+        container.className = "ddl_mail_item";
+
+        /* top */
+        var topContainer = dataList.CreateElement('div');
+        topContainer.className = "ddl_mail_desc";
+        var description = dataList.CreateElement('div');
+        data.GetDescription().AssignHtml(description, 'innerHTML');
+        topContainer.appendChild(description);
+
+
+        /* middle */  
+        var middleContainer = dataList.CreateElement('div');
+        middleContainer.className = 'ddl_mail_email';
+        var email = dataList.CreateElement('div');
+        data.GetEmail().AssignHtml(email, 'innerHTML');
+        middleContainer.appendChild(email);
+
+        /* bottom */
+        var bottomContainer = dataList.CreateElement('div');
+        bottomContainer.className = 'ddl_mail_time';
+        var time = dataList.CreateElement('div');
+        data.GetTime().AssignHtml(time, 'innerHTML');
+        bottomContainer.appendChild(time);
+
+        container.appendChild(topContainer)
+        container.appendChild(middleContainer);
+        container.appendChild(bottomContainer);
+
+        return container;
+    }
+});
+
+D2L.IM.GoogleApps.WidgetPages.MailItemRendererData = D2L.Control.DataList.ItemRendererData.extend({
+
+    Construct: function () {
+        arguments.callee.$.Construct.call(this);
+        this.m_description = null;
+        this.m_email = null;
+        this.m_time = null;
+
+    },
+
+    Deserialize: function (deserializer) {
+        arguments.callee.$.Deserialize.call(this, deserializer);
+        this.m_description = deserializer.GetObject('Description', D2L.LP.Text.IText);
+        this.m_email = deserializer.GetObject('Email', D2L.LP.Text.IText);
+        this.m_time = deserializer.GetObject('Time', D2L.LP.Text.IText);
+    },
+
+    GetDescription: function () {
+        return this.m_description;
+    },
+
+    GetEmail: function () {
+        return this.m_email;
+    },
+
+    GetTime: function () {
+        return this.m_time;
+    }
+});

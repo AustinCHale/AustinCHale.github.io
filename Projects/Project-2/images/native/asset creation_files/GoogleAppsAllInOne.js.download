@@ -1,0 +1,157 @@
+(function () {
+    'use strict';
+
+    if (!D2L.IM.GoogleApps) {
+        D2L.IM.GoogleApps = {};
+    }
+
+
+    D2L.IM.GoogleApps.WidgetPages = function () {
+
+    var exposedFunctions = {
+        changeTabs: changeTabs,
+        accessCode: accessCode,
+        authorizeGoogleUser: authorizeGoogleUser,
+        showAllInOneOptionsDialog: showAllInOneOptionsDialog,
+        composeEmail: composeEmail,
+        searchForFiles: searchForFiles
+    };
+
+
+        // Force other google apps widget to reload
+        var win = $(window);
+        win.bind('googleapps.authorized', function () {
+            var frames = window.top.document.getElementsByTagName('iframe');
+            var framesArray = Array.prototype.slice.call(frames);
+            framesArray.forEach(function (item) {
+                var $frame = $(item);
+                $frame.attr('src', $frame.attr('src'));
+            });
+        });
+
+        return exposedFunctions;
+
+
+        ////////////////////////////
+
+        function navigation(location) {
+            var navi = new D2L.NavInfo();
+            navi.SetTarget('_parent');
+            navi.SetNavigation(location);
+
+            var nav = new D2L.Nav();
+            nav.Go(navi, false, false);
+        }
+
+        // Changes the active tab
+        function changeTabs(tabGroupId, ContainerName, tabName) {
+            // select the tab
+            var tabGroup = UI.GetControl(tabGroupId);
+            tabGroup.SelectTab(tabName);
+
+            var email = UI.GetControl("PH_Email");
+            if (email !== null && email !== undefined) {
+                email.SetIsDisplayed(false);
+            }
+
+            var calendar = UI.GetControl("PH_Calendar");
+            if (calendar !== null && calendar !== undefined) {
+                calendar.SetIsDisplayed(false);
+            }
+
+            var docs = UI.GetControl("PH_Docs");
+            if (docs !== null && calendar !== undefined) {
+                docs.SetIsDisplayed(false);
+            }
+
+            var container = UI.GetControl(ContainerName);
+            container.SetIsDisplayed(true);
+        }
+
+        function accessCode(page) {
+            var field = UI.GetControl('EDT_AccessCode');
+            var accessToken = field.GetTextAsString();
+
+            D2L.Rpc.Create('SubmitAccessCode', rpcCallback, page).Call(accessToken);
+
+            function rpcCallback(rpcResponse) {
+                if (rpcResponse.GetType() === D2L.Rpc.ResponseType.Success) {
+                    var result = rpcResponse.GetResult();
+                    if (result) {
+                        navigation('/d2l/home/' + Global.OrgUnitId);
+                    }
+                }
+            }
+        }
+
+        function searchForFiles( page ) {
+          var field = UI.GetControl('EDT_SearchForFiles');
+          var docsControl = UI.GetControl( 'DL_Docs' );
+          docsControl.SetParameter( 'searchCriteria', field.GetTextAsString() );
+          docsControl.Reload();
+       }
+
+      function authorizeGoogleUser(url) {
+
+        var newwindow = window.open(url, 'googleAuthDialog',
+            'height=670,width=600,menubar=no,toolbar=no,resizable=yes,scrollbars=1');
+
+            if (window.focus && newwindow ) {
+                newwindow.focus();
+            }
+
+            function reloadAfterPopupClose() {
+                if (!newwindow || newwindow.closed) {
+                    $(window).trigger('googleapps.authorized');
+                } else if (newwindow && (!newwindow.opener || newwindow.opener.closed) ) {
+                    $(window).trigger('googleapps.authorized');
+                } else {
+                    setTimeout(reloadAfterPopupClose, 500);
+                }
+            }
+            setTimeout(reloadAfterPopupClose, 2000);
+        }
+
+        function composeEmail(url) {
+            var newwindow = window.open(url);
+
+            if (window.focus && newwindow) {
+                newwindow.focus();
+            }
+        }
+
+        function showAllInOneOptionsDialog(layoutId, componentId, doReload) {
+
+            var dialog = new D2L.NonModalDialog('myGoogleAppsAllInOneDialog', callback);
+
+            dialog.SetTitle(new D2L.Language.Term('GoogleApps.UserSettings.PageTitle'));
+            dialog.SetSize(525, 425);
+
+            dialog.AddCustomButton(
+              new D2L.Language.Term('Standard.Buttons.btnSave'),
+              D2L.Dialog.ButtonPosition.Left,
+              D2L.Dialog.ResponseType.Positive,
+              null, //responseParam
+              'BTN_InstuctionsDialogPrimary', //button control ID
+              true //is primary
+            );
+            dialog.AddButton(D2L.Dialog.ButtonType.Cancel);
+
+            dialog.SetSrcParam('componentId', componentId);
+            dialog.SetSrcParam('layoutId', layoutId);
+
+            dialog.SetSrc('/d2l/im/gapps/pages/UserSettings.d2l', 'UserSettings_dialogCloseCallback');
+
+            dialog.Open();
+
+            ///////////////
+
+            function callback(response) {
+                response.GetDialog().Close();
+                if (doReload && response.GetType() === D2L.Dialog.ResponseType.Positive) {
+                    Nav.Reload();
+                }
+            }
+        }
+    }();
+})();

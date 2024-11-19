@@ -1,0 +1,181 @@
+﻿D2L.Control.DataList.DriveItemRenderer = D2L.Control.DataList.ItemRenderer.extend(
+{
+	/**
+	 * @class DataList Drive tab item renderer used on Google Workspace widget
+	 * @constructs
+	 * @extends {D2L.Control.DataList.ItemRenderer}
+	 */
+	Construct: function() {
+	
+		arguments.callee.$.Construct.call( this );
+		this.baseFontSize = UI.GetRelativeFontSizeManager().GetBaseFontSize();
+		this.m_textFormat = '0';
+	},
+
+	/**
+	 * @private
+	 */
+	Deserialize: function( deserializer ) {
+	
+		// extract base renderer properties
+		arguments.callee.$.Deserialize.call( this, deserializer );
+		this.m_textFormat = deserializer.GetMember( 'TextFormat' );
+		
+	},
+
+	/**
+	 * @private
+	 */
+	GetDataClass: function() {
+		return D2L.Control.DataList.TextItemRendererData;
+	},
+
+	/**
+	 * @private
+	 */
+	Init: function( dataList ) {
+		var me = this;
+		dataList.SelectItemEvent().RegisterMethod( function( dataItem ) { me.SelectHandler( dataItem ); } );
+		dataList.UnSelectItemEvent().RegisterMethod( function( dataItem ) { me.UnSelectHandler( dataItem ); } );
+	},
+
+	/**
+	 * @private
+	 */
+	Render: function( dataItem ) {
+		
+		var data = dataItem.GetData();
+		var dataList = dataItem.GetDataList();
+		var layoutType = dataList.GetLayoutType();
+		var navigation = dataItem.GetParameter('Navigation');
+		// create the root container node for the renderer content
+		var node = null;
+		if (navigation != null) {
+			node = dataList.CreateElement('a');
+			node.setAttribute('href', navigation);
+			node.setAttribute('target', '_blank');
+		} else {
+			node = dataList.CreateElement('div');
+		}
+		node.className = this.GetContentCssClass( dataItem );
+
+		// create the text container node
+		var textNode = dataList.CreateElement( 'div' );
+		textNode.className = 'drive_container';
+		
+		// create the title node
+		var titleNode = dataList.CreateElement( 'div' );
+		titleNode.className = 'drive_title';
+		if ( this.m_textFormat == 1 ) {
+			data.GetTitle().AssignHtml( titleNode, 'innerHTML' );
+		} else {
+			data.GetTitle().AssignText( titleNode, 'innerHTML' );
+		}
+		textNode.appendChild( titleNode );
+		
+		// create the description node if necessary
+		if ( data.GetDescription() != null ) {
+			var descNode = dataList.CreateElement( 'div' );
+			descNode.className = 'drive_desc';
+			if ( this.m_textFormat == 1 ) {
+				data.GetDescription().AssignHtml(descNode, 'innerHTML');
+			} else {
+				data.GetDescription().AssignText( descNode, 'innerHTML' );
+			}
+			textNode.appendChild( descNode );
+		}
+
+		// create the image node if an image was specified
+		var image = data.GetImage();
+		if ( image != null ) {
+			node.style.display = 'flex';
+			// create the margin node for the image
+			var marginNode = dataList.CreateElement( 'div' );
+			marginNode.className = 'drive_img';
+			node.appendChild( marginNode );
+			
+			// create the image control and append it
+			var imageControl = new D2L.Control.Image();
+			imageControl.SetImage( image );
+			imageControl.AppendTo( marginNode );
+		}
+		
+		// append the text node
+		node.appendChild( textNode );
+
+		return node;
+	},
+ 
+	/**
+	 * @private
+	 */
+	GetContentCssClass: function( dataItem ) {
+		return 'drive_item';
+	},
+ 
+	/**
+	 * @private
+	 */
+	SelectHandler: function( dataItem ) {
+		dataItem.GetControl().className = this.GetContentCssClass( dataItem );
+	},
+	
+	/**
+	 * @private
+	 */
+	UnSelectHandler: function( dataItem ) {
+		dataItem.GetControl().className = this.GetContentCssClass( dataItem );
+	}
+ 
+});
+
+D2L.Control.DataList.TextItemRendererData = D2L.Control.DataList.ItemRendererData.extend( 
+{
+	/**
+	 * @class DataList data class to represent data consumed by the DriveItemRenderer.
+	 * @constructs
+	 * @extends {D2L.Control.DataList.ItemRendererData}
+	 * @since 4.0.0.0
+	 */
+	Construct: function() {	
+		arguments.callee.$.Construct.call( this );				
+		this.m_description = null;		      
+		this.m_img = null;
+	},
+
+	/**
+	 * @private
+	 */
+	Deserialize: function( deserializer ) {
+		
+		// extract base renderer properties
+		arguments.callee.$.Deserialize.call( this, deserializer );
+		
+		// extract text
+		this.m_description = deserializer.GetObject('Description');
+				
+		// extract image
+		this.m_img =  deserializer.GetObject('Img',D2L.Images.Image);
+		if( this.m_img === undefined ) {
+			this.m_img = null;
+		}
+	},
+	
+	/**
+	 * Gets the description.
+	 * @return {D2L.LP.Text.IText} Text
+	 */
+	GetDescription: function() { 
+		return this.m_description; 
+	},	
+		
+	/**
+	 * Image for the item icon.
+	 * @return {D2L.Images.Image} Icon image
+	 */
+	GetImage: function() { 
+		return this.m_img; 
+	}	       		
+	
+}); 
+
