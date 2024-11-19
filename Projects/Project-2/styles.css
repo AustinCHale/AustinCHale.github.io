@@ -1,0 +1,94 @@
+body{ margin: 0px;
+    max-width: 1280;
+    max-height: 720;
+    background-color: #FFCCA8;
+    overflow: hidden;}
+
+h1{background-color: #432C1F;
+    font-family: lexend;
+    color: #fff;
+    text-align: center;
+    font-size: 90px;
+    margin: 0px;}
+
+/*start for the main nav*/
+        ul.mulnav{list-style-type: none;
+            margin: 0px auto;
+            width: 1280px;}
+        li.nav{float: left;}
+        li a{display: block;
+            text-decoration: none;
+            text-align: center;
+            color:#ffffff;
+            font-size: 40px;
+            font-weight: 600;
+            font-family: lexend;
+            padding: 18px 30px;}
+        li a:hover{background-color: #432C1F;}
+        #active{text-decoration: underline  white 5px;}
+        .mnav{height: 76px;
+            background-color: #865F43;}
+/*end for the main nav*/
+
+
+/*start for the step nav*/
+        ul.sulnav{list-style-type: none;
+            margin: 10px 122px;
+            width: 1280px;}
+
+        li.snav{float: left;
+            margin-top: 40px;}
+
+        li a.slink{display: block;
+            text-decoration: none;
+            text-align: center;
+            background-color: #D89A6E;
+            /*background-color: #D89A6E;*/
+            color:#ffffff;
+            font-size: 30px;
+            font-weight: 600;
+            font-family: lexend;
+            padding: 18px 30px;
+            margin-right: 32px;}
+
+        li a:hover{background-color: #432C1F;}
+
+        #stepsactive{background-color: #432C1F;}
+/*end for the step nav*/
+
+
+/*start for items in the border*/
+        .border{width: 1580px;
+            height: 525px;
+            flex-shrink: 0;
+            border:#432C1F solid 8px ;
+            margin: 126px auto}
+
+        .flex{display: flex;}
+
+        h3{font-family: lexend;
+            color: #432C1F;
+            text-align: left;
+            font-size: 50px;
+            margin: 0px;
+            padding: 25px 0px 0px 30px;}
+
+        p{color: #432C1F;
+            font-family: lexend;
+            font-size: 25px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 40px;
+            padding: 0px 25PX;}
+
+        a{text-decoration: none;
+            color: #865F43;
+            font-family: lexend;
+            font-size: 20px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 40px;
+            padding: 25px;}
+
+    img{margin: -50px 0px 0px 100px;}
+/*end for items in the border*/
