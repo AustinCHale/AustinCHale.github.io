@@ -1,0 +1,6 @@
+nav{background-color: rgb(100, 25, 112);}
+nav li a{color: #cd69ff !important;
+    font-size: 25pt;
+    text-align: right;}
+nav li .active{background-color: #e7b6ff !important}
+
