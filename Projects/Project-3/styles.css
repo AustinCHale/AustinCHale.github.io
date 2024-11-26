@@ -1,8 +1,18 @@
 body{margin: 0px;
     padding: 0px;
-    background-color: rgb(0, 0, 0);}
-nav{background-color: #27140C;}
-nav ul{text-align: left;}
-nav li a{color: #E9CFBB !important;
-    font-size: 25pt;}
-nav li .active{text-decoration: underline !important;}
+    background-color: #000000;}
+header{display: flex;
+    background-color: #27140C;
+    padding: 10px 30px 10px 30px;
+    justify-content: space-between;
+    align-items: center;}
+header img{justify-content: left;}
+nav ul{list-style: none;
+    display: flex;
+    gap: 40px;
+    justify-content: flex-end;}
+nav li{font-size: 30pt;}
+nav a{text-decoration: none;
+    color: #E8CEBB;}
+nav a:hover{text-decoration: underline;}
+nav a #active{text-decoration: underline;}
