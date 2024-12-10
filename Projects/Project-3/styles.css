@@ -28,7 +28,6 @@ nav a#active{color: #466E33;
 
 /*index (above the fold) beginning*/
 main #above-fold{background-image: url(images/index-main-img-02-01.png);
-    width: 1440px;
     height: 400px;
     margin: 0px auto;}
 main h1{color: #E8CEBB;
@@ -68,16 +67,23 @@ main .h3sub h3{margin: 0px auto;
     width: 1240px;
     border-bottom: solid #E8CEBB;
     margin-bottom: 30px;}
-main .image-container{display: inline-block;}
+main #new-img{text-align: center;}
+main .image-container{display: inline-block; 
+    margin-right: 12px;}
+main .image-container:last-child{margin-right: 0px;}
 main .image-container img{width: 270px;
-    height: auto;
-    margin-left: 12.5px;}
-main .image-container img:end{margin-left: 0px;}
+    height: auto;}
 /*index New end*/
 
-/*Gallery end*/
-#gallery{margin-top: 50px;}
-.galleryrow{padding-top: 12.5px;}
+/*Shop beginning*/
+.shop-images{text-align: center;}
+/*Shop end*/
+
+/*Shop end*/
+#gallery{margin-top: 50px;
+    text-align: center;}
+.galleryrow{padding-top: 12.5px;
+    text-align: center}
 /*Gallery end*/
 
 /*Contact beginning*/
@@ -121,3 +127,6 @@ footer a{text-decoration: none;
     color: #27140C;}
 /*Footer end*/
 
+/*@media only screen and (max-width: 600px) {
+    #above-fold{width: 100%;}
+    }*/
