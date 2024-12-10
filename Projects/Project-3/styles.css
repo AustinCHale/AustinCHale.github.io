@@ -1,9 +1,15 @@
-body{margin: 0px;
+body{margin: 0px auto;
     padding: 0px;
-    background-color: #000000;}
-header{display: flex;
-    background-color: #27140C;
-    padding: 10px 30px 10px 30px;
+    background-color: #000000;
+    height: auto;
+    width: 1440;
+    justify-content: center;}
+
+/*nav bar beginning*/
+header{width: 1440;
+    display: flex;
+    background-color: #E8CEBB;
+    padding: 10px 40px 10px 30px;
     justify-content: space-between;
     align-items: center;}
 header img{justify-content: left;}
@@ -11,8 +17,107 @@ nav ul{list-style: none;
     display: flex;
     gap: 40px;
     justify-content: flex-end;}
-nav li{font-size: 30pt;}
+nav li{font-family: "DM Serif Display";
+    font-size: 25pt;}
 nav a{text-decoration: none;
-    color: #E8CEBB;}
+    color: #27140C;}
 nav a:hover{text-decoration: underline;}
-nav a #active{text-decoration: underline;}
+nav a#active{color: #466E33;
+    text-decoration: underline;}
+/*nav bar end*/
+
+/*index (above the fold) beginning*/
+main #above-fold{background-image: url(images/index-main-img-02-01.png);
+    width: 1440px;
+    height: 400px;
+    margin: 0px auto;}
+main h1{color: #E8CEBB;
+    text-align: center;
+    font-family: "DM Serif Display";
+    font-weight: 100;
+    font-size: 96px;
+    margin: 0px auto;
+    padding-top: 60px;}
+/*index (above the fold) end*/
+
+/*index about beginning*/
+main h2{color: #E8CEBB;
+    font-family: "DM Serif Display";
+    font-size: 50px;
+    font-weight: 100;
+    padding-left: 62px;
+    padding-bottom: 0px;
+    margin: 10px;}
+main .h2sub h2 span{display: inline-block;
+    border-bottom: solid #E8CEBB;}
+p{color: #E8CEBB;
+    font-size: 24px;
+    margin-left: 70px;
+    padding-bottom: 20px;
+    width: 1305px;
+    text-align: justify;}
+/*index about end*/
+
+/*index New beginning*/
+main .h3sub h3{margin: 0px auto;
+    color: #E8CEBB;
+    font-family: "DM Serif Display";
+    font-size: 40px;
+    font-weight: 100;
+    text-align: center;
+    width: 1240px;
+    border-bottom: solid #E8CEBB;
+    margin-bottom: 30px;}
+main .image-container{display: inline-block;}
+main .image-container img{width: 270px;
+    height: auto;
+    margin-left: 12.5px;}
+main .image-container img:end{margin-left: 0px;}
+/*index New end*/
+
+/*Gallery end*/
+#gallery{margin-top: 50px;}
+.galleryrow{padding-top: 12.5px;}
+/*Gallery end*/
+
+/*Contact beginning*/
+#order{margin-bottom: 20px;
+    margin-left: 70px;
+    padding: 0px;}
+#info{margin-bottom: 0px;
+    margin-left: 70px;
+    padding: 0px;}
+form{margin: 20px 0px 0px 70px;
+    color: #E8CEBB;
+    font-size: 20px;
+    font-family: "DM Serif Display";
+    margin-bottom: 0px;}
+form input{background-color: #000000;
+    color: #E8CEBB;
+    border: #E8CEBB solid .5px;}
+#comment{width: 300px;
+    height: 200px;}
+#button{font-family: "DM Serif Display";}
+#submit{background-color: #E8CEBB;
+    color: #000000;}
+/*Contact end*/
+
+/*Footer beginning*/
+footer{margin-top: 12px; 
+    width: 1440;
+    height: 80px;
+    display: flex;
+    background-color: #E8CEBB;
+    justify-content: center;}
+footer ul{list-style: none;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 100px;
+    align-items: center;}
+footer li{font-family: "DM Serif Display";
+    font-size: 15pt;}
+footer a{text-decoration: none;
+    color: #27140C;}
+/*Footer end*/
+
