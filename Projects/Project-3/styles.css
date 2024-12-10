@@ -67,6 +67,7 @@ main .h3sub h3{margin: 0px auto;
     width: 1240px;
     border-bottom: solid #E8CEBB;
     margin-bottom: 30px;}
+#new-sec{margin-top: 50px;}
 main #new-img{text-align: center;}
 main .image-container{display: inline-block; 
     margin-right: 12px;}
@@ -77,10 +78,11 @@ main .image-container img{width: 270px;
 
 /*Shop beginning*/
 .shop-images{text-align: center;}
+#new-sec{margin-top: 50px;}
 /*Shop end*/
 
-/*Shop end*/
-#gallery{margin-top: 50px;
+/*Gallery start*/
+#gallery{margin-top: 15px;
     text-align: center;}
 .galleryrow{padding-top: 12.5px;
     text-align: center}
