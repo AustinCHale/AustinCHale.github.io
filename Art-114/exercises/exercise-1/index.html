@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 1</title>
+
+    <style>
+        #body {
+            text-align: center;
+            background-color: black;
+        }
+
+        #greeting {
+            color: #E2E233;
+            font-size: 100px;
+        }
+    </style>
+</head>
+<body id="body">
+    <a id="switch" href="#"><img src="images/switch-off.png" alt=""></a>
+    <h1 id="greeting">Goodnight</h1>
+
+<script>
+    var switchElement = document.getElementById('switch');
+    switchElement.addEventListener('click', () => {
+        var body = document.getElementById('body');
+        body.style.backgroundColor= '#d4d4ff';
+
+        const switchImg = switchElement.querySelector('img');
+        switchImg.src = 'images/switch-on.png';
+
+        
+    });
+
+    const wswitchElement = document.getElementById('switch');
+        switchElement.addEventListener('click', () => {
+            const greetingElement = document.getElementById('greeting');
+            greetingElement.innerHTML = ('Good Morning');
+            greetingElement.style.color = 'black';
+        });
+    </script>
+    </body>
