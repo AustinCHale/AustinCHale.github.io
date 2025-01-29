@@ -22,22 +22,25 @@
     <h1 id="greeting">Goodnight</h1>
 
 <script>
-    var switchElement = document.getElementById('switch');
-    switchElement.addEventListener('click', () => {
-        var body = document.getElementById('body');
-        body.style.backgroundColor= '#d4d4ff';
+    const toggle = document.getElementById('switch');
+    const greeting = document.getElementById('greeting');
 
-        const switchImg = switchElement.querySelector('img');
-        switchImg.src = 'images/switch-on.png';
+    toggle.addEventListener('click', () => {
+        const body = document.getElementById('body');
+        const switchImg = toggle.querySelector('img');
 
-        
+        if (body.style.backgroundColor === 'black') {
+            body.style.backgroundColor = '#d4d4ff';
+            switchImg.src = 'images/switch-on.png';
+            greeting.innerHTML = 'Good Morning';
+            greeting.style.color = 'black';
+        } else {
+            body.style.backgroundColor = 'black';
+            switchImg.src = 'images/switch-off.png';
+            greeting.innerHTML = 'Goodnight';
+            greeting.style.color = '#E2E233';
+        }
     });
 
-    const wswitchElement = document.getElementById('switch');
-        switchElement.addEventListener('click', () => {
-            const greetingElement = document.getElementById('greeting');
-            greetingElement.innerHTML = ('Good Morning');
-            greetingElement.style.color = 'black';
-        });
     </script>
     </body>
